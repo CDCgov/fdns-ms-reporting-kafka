@@ -1,0 +1,141 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>gov.cdc</groupId>
+	<artifactId>fdns-ms-reporting-kafka</artifactId>
+	<version>1.0.0</version>
+
+	<name>FDNS Reporting Kafka Workers</name>
+	<description>This project contains the Kafka workers to handle the generation of reports.</description>
+	<url>https://github.com/CDCgov/fdns-ms-reporting-kafka</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<issueManagement>
+		<url>https://github.com/CDCgov/fdns-ms-reporting-kafka/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
+	<scm>
+		<url>https://github.com/CDCgov/fdns-ms-reporting-kafka</url>
+		<connection>scm:git:git://github.com/CDCgov/fdns-ms-reporting-kafka.git</connection>
+		<developerConnection>scm:git:git@github.com:CDCgov/fdns-ms-reporting-kafka.git</developerConnection>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<sonar.host.url>http://localhost:9001</sonar.host.url>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>gov.cdc</groupId>
+			<artifactId>fdns-kafka-library</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.cdc</groupId>
+			<artifactId>fdns-java-sdk</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>gov.cdc.kafka.Main</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.1</version>
+				<configuration>
+					<environmentVariables>
+						<PROFILE_NAME></PROFILE_NAME>
+						<GROUP_NAME></GROUP_NAME>
+						<INCOMING_TOPIC_NAME>reporting-archiver</INCOMING_TOPIC_NAME>
+						<ERROR_TOPIC_NAME>reporting-error</ERROR_TOPIC_NAME>
+						<KAFKA_BROKERS>kafka:29092</KAFKA_BROKERS>
+						<STORAGE_URL>http://fdns-ms-storage:8082</STORAGE_URL>
+						<OBJECT_URL>http://fdns-ms-object:8083</OBJECT_URL>
+						<INDEXING_URL>http://fdns-ms-indexing:8084</INDEXING_URL>
+						<COMBINER_URL>http://fdns-ms-combiner:8085</COMBINER_URL>
+						<MICROSOFT_UTILS_URL>http://fdns-ms-msft-utils:8086</MICROSOFT_UTILS_URL>
+						<OAUTH_URL></OAUTH_URL>
+						<OAUTH_SCOPES></OAUTH_SCOPES>
+						<OAUTH_ENABLED>false</OAUTH_ENABLED>
+						<OAUTH_CLIENTID></OAUTH_CLIENTID>
+						<OAUTH_CLIENTSECRET></OAUTH_CLIENTSECRET>
+						<SSL_VERIFYING_DISABLE>false</SSL_VERIFYING_DISABLE>
+					</environmentVariables>
+				</configuration>
+			</plugin>
+
+			<!-- OWASP dependency check, looks for known vulnerabilities in our dependent packages -->
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>3.3.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- add GitHub CDCgov to repositories -->
+	<repositories>
+		<repository>
+			<id>github-cdcgov</id>
+			<url>https://github.com/CDCgov/maven-repository/raw/master/</url>
+		</repository>
+	</repositories>
+</project>
