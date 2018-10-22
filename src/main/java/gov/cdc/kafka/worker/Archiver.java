@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.net.URLDecoder;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -192,7 +193,7 @@ public class Archiver extends AbstractConsumer {
 		try {
 			ConsumerRecord<String, String> record = (ConsumerRecord<String, String>) _record;
 			JSONObject data = new JSONObject(record.value().toString());
-			String query = data.getString("query");
+			String query = URLDecoder.decode(data.getString("query"), "UTF-8");
 			String format = data.getString("format");
 			String type = data.getString("type");
 			jobId = data.getString("_id");
