@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CDCgov/fdns-ms-reporting-kafka.svg?branch=master)](https://travis-ci.org/CDCgov/fdns-ms-reporting-kafka)
+
 # FDNS Reporting Kafka Workers
 This is the repository with the Reporting Kafka data stream workers that package up the documents into the proper formats: JSON, XML, XLSX or CSV.
 
