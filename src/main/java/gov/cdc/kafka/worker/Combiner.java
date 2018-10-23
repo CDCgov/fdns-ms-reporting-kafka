@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URLDecoder;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -180,7 +181,7 @@ public class Combiner extends AbstractConsumer {
 		try {
 			ConsumerRecord<String, String> record = (ConsumerRecord<String, String>) _record;
 			JSONObject data = new JSONObject(record.value().toString());
-			String query = data.getString("query");
+			String query = URLDecoder.decode(data.getString("query"), "UTF-8");
 			String format = data.getString("format");
 			String type = data.getString("type");
 			String combinerConfig = data.getString("config");

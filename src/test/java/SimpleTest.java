@@ -46,8 +46,8 @@ public class SimpleTest {
 	static public void populateDataLake() throws Exception {
 		System.out.println("Populating the data lake...");
 		// create some test objects
-		ObjectHelper.getInstance().createObject(new JSONObject("{ \"foo\":\"bar\" }"), db, collection);
-		ObjectHelper.getInstance().createObject(new JSONObject("{ \"foo\":\"baz\" }"), db, collection);
+		ObjectHelper.getInstance().createObject(new JSONObject("{ \"foo\":\"bar\", \"messages\": 50 }"), db, collection);
+		ObjectHelper.getInstance().createObject(new JSONObject("{ \"foo\":\"baz\", \"messages\": 30 }"), db, collection);
 
 		// create indexing config
 		String indexingConfigData = "{\"mongo\":{\"database\":\"" + db + "\",\"collection\":\"" + collection + "\"},\"elastic\":{\"index\":\"test\",\"type\":\"simple\"},\"mapping\":{\"$unset\":[\"_id\"],\"$set\":{}},\"filters\":{}}";
@@ -88,7 +88,7 @@ public class SimpleTest {
 		TimeUnit.SECONDS.sleep(5);
 
 		// create the jobs
-		String objectJSONJobId = createJob(incomingTopicName, "objectJSONJob", "{ \"query\":\"\", \"format\":\"json\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\" }");
+		String objectJSONJobId = createJob(incomingTopicName, "objectJSONJob", "{ \"query\":\"messages%3E%3D50\", \"format\":\"json\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\" }");
 		String objectXMLJobId = createJob(incomingTopicName, "objectXMLJob", "{ \"query\":\"\", \"format\":\"xml\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\" }");
 		String indexingJSONJobId = createJob(incomingTopicName, "indexingJSONJob", "{ \"query\":\"\", \"format\":\"json\", \"type\":\"indexing\", \"index\":\"" + indexingConfig + "\" }");
 		String indexingXMLJobId = createJob(incomingTopicName, "indexingXMLJob", "{ \"query\":\"\", \"format\":\"xml\", \"type\":\"indexing\", \"index\":\"" + indexingConfig + "\" }");
@@ -145,7 +145,7 @@ public class SimpleTest {
 		TimeUnit.SECONDS.sleep(5);
 
 		// create the jobs
-		String objectCSVJobId = createJob(incomingTopicName, "objectCSVJob", "{ \"query\":\"\", \"format\":\"csv\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\", \"config\": " + combinerConfig + " }");
+		String objectCSVJobId = createJob(incomingTopicName, "objectCSVJob", "{ \"query\":\"messages>=50\", \"format\":\"csv\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\", \"config\": " + combinerConfig + " }");
 		String objectXLSXJobId = createJob(incomingTopicName, "objectXLSXJob", "{ \"query\":\"\", \"format\":\"xlsx\", \"type\":\"object\", \"database\":\"" + db + "\", \"collection\":\"" + collection + "\", \"config\": " + combinerConfig + " }");
 		String indexingCSVJobId = createJob(incomingTopicName, "indexingCSVJob", "{ \"query\":\"\", \"format\":\"csv\", \"type\":\"indexing\", \"index\":\"" + indexingConfig + "\", \"config\": " + combinerConfig + " }");
 		String indexingXLSXJobId = createJob(incomingTopicName, "indexingXLSXJob", "{ \"query\":\"\", \"format\":\"xlsx\", \"type\":\"indexing\", \"index\":\"" + indexingConfig + "\", \"config\": " + combinerConfig + " }");
