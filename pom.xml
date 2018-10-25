@@ -95,6 +95,8 @@
 				<version>2.22.1</version>
 				<configuration>
 					<environmentVariables>
+						<OBJECT_BATCH_SIZE>1000</OBJECT_BATCH_SIZE>
+						<INDEXING_BATCH_SIZE>1000</INDEXING_BATCH_SIZE>
 						<PROFILE_NAME></PROFILE_NAME>
 						<GROUP_NAME></GROUP_NAME>
 						<INCOMING_TOPIC_NAME>reporting-archiver</INCOMING_TOPIC_NAME>
