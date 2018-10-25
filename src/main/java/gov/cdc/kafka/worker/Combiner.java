@@ -40,9 +40,9 @@ public class Combiner extends AbstractConsumer {
 
 	public Combiner(String groupName, String incomingTopicName, String outgoingTopicName, String errorTopicName, String kafkaBrokers, String schemaRegistryUrl) throws IOException {
 		super(groupName, incomingTopicName, outgoingTopicName, errorTopicName, kafkaBrokers, schemaRegistryUrl);
-		indexingBatchSize = Integer.parseInt(ResourceHelper.getProperty("indexing.batch.size"));
+		indexingBatchSize = Integer.parseInt(ResourceHelper.getSysEnvProperty("INDEXING_BATCH_SIZE", true));
 		indexingScroll = ResourceHelper.getProperty("indexing.batch.scroll");
-		objectBatchSize = Integer.parseInt(ResourceHelper.getProperty("object.batch.size"));
+		objectBatchSize = Integer.parseInt(ResourceHelper.getSysEnvProperty("OBJECT_BATCH_SIZE", true));
 	}
 
 	@Override

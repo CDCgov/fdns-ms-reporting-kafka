@@ -15,6 +15,8 @@ docker-build:
 		--build-arg INDEXING_URL=http://fdns-ms-indexing:8084 \
 		--build-arg COMBINER_URL=http://fdns-ms-combiner:8085 \
 		--build-arg MICROSOFT_UTILS_URL=http://fdns-ms-msft-utils:8086 \
+		--build-arg OBJECT_BATCH_SIZE=1000 \
+		--build-arg INDEXING_BATCH_SIZE=1000 \
 		--build-arg OAUTH_URL= \
 		--build-arg OAUTH_ENABLED=false \
 		--build-arg OAUTH_CLIENTID= \
