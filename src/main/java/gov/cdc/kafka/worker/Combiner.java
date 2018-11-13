@@ -92,7 +92,7 @@ public class Combiner extends AbstractConsumer {
 				cursor += objectBatchSize;
 
 				// Update progress
-				jobObject.put("progress", PROGRESS_REQUESTINGDATA * cursor + objectBatchSize);
+				jobObject.put("progress", PROGRESS_REQUESTINGDATA * cursor / total);
 				ObjectHelper.getInstance(authorizationHeader).updateObject(jobId, jobObject);
 			}
 
